@@ -43,6 +43,13 @@ const LandingPage = () => {
           Sign up today and start your journey towards mastering a new language
           with Polyglottos!
         </p>
+        <p className="text-gray-700 mt-4">
+          Interested in becoming a tutor?{' '}
+          <a href="/prospective-tutors" className="text-blue-500 underline">
+            Find out more here
+          </a>
+          .
+        </p>
       </section>
     </div>
   );
