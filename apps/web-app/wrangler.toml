@@ -1,0 +1,7 @@
+name = "web-app"
+
+[build]
+command = "npm run build"
+compatibility_date = "2024-12-08"
+
+# ...other configurations specific to landing-page...
