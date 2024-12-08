@@ -12,6 +12,7 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     remix({
+      ssr: false,
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,

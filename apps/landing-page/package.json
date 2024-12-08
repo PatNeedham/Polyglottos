@@ -1,7 +1,9 @@
 {
   "private": true,
   "name": "landing-page",
-  "scripts": {},
+  "scripts": {
+    "build": "npx remix vite:build"
+  },
   "type": "module",
   "dependencies": {
     "@remix-run/node": "^2.14.0",
