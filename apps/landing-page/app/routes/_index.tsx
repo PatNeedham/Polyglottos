@@ -1,9 +1,9 @@
-import NxWelcome from '../nx-welcome';
+import LandingPage from '../components/LandingPage';
 
 export default function Index() {
   return (
     <div>
-      <NxWelcome title={'landing-page'} />
+      <LandingPage />
     </div>
   );
 }

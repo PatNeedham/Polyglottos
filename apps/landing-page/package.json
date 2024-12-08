@@ -2,7 +2,8 @@
   "private": true,
   "name": "landing-page",
   "scripts": {
-    "build": "npx remix vite:build"
+    "build": "npx remix vite:build",
+    "dev": "npx remix dev"
   },
   "type": "module",
   "dependencies": {
@@ -16,7 +17,10 @@
   "devDependencies": {
     "@remix-run/dev": "^2.14.0",
     "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0"
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
   },
   "engines": {
     "node": ">=18.18.0 || >=20.9.0 || >=21.1.0"
