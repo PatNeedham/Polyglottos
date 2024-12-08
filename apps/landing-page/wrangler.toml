@@ -1,7 +1,5 @@
 name = "polyglottos-landing-page"
 
 [build]
-command = "npm run build"
+command = "rm package-lock.json && npm install --verbose && npm run build --verbose"
 compatibility_date = "2024-12-08"
-
-# ...other configurations specific to landing-page...
