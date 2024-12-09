@@ -1,0 +1,15 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "npx wrangler dev",
+    "build": "npx wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^2.2.2",
+    "@cloudflare/workers-types": "^3.14.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

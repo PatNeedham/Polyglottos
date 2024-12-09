@@ -1,0 +1,36 @@
+name: Deploy Landing Page
+
+on:
+  push:
+    paths:
+      - 'apps/landing-page/**'
+      - '.github/workflows/deploy-landing-page.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.12.0'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./apps/landing-page
+
+      - name: Build project
+        run: npm run build
+        working-directory: ./apps/landing-page
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: your-landing-page-project-name
+          directory: ./apps/landing-page/build/client
