@@ -7,7 +7,7 @@ import {
 } from '@remix-run/react';
 import type { MetaFunction, LinksFunction } from '@remix-run/node';
 
-import styles from './styles/tailwind.css';
+import tailwindStyles from './styles/tailwind.css?url';
 
 export const meta: MetaFunction = () => [
   {
@@ -22,7 +22,7 @@ export const links: LinksFunction = () => [
     href: 'https://fonts.gstatic.com',
     crossOrigin: 'anonymous',
   },
-  { rel: 'stylesheet', href: styles },
+  { rel: 'stylesheet', href: tailwindStyles },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
