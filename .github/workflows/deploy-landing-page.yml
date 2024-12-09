@@ -32,5 +32,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: your-landing-page-project-name
+          projectName: polyglottos-landing-page
           directory: ./apps/landing-page/build/client
