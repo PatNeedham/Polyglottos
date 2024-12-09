@@ -1,6 +1,5 @@
 name = "polyglottos-api"
 main = "./src/index.ts"
-account_id = "${CF_ACCOUNT_ID}"
 workers_dev = true
 compatibility_date = "2023-10-01"
 
