@@ -20,7 +20,7 @@ jobs:
           node-version: '22.12.0'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
         working-directory: ./apps/api
 
       - name: Deploy to Cloudflare Workers

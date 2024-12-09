@@ -6,8 +6,8 @@
     "build": "npx wrangler deploy"
   },
   "dependencies": {
-    "hono": "^2.2.2",
-    "@cloudflare/workers-types": "^3.14.0"
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "hono": "^2.2.2"
   },
   "devDependencies": {
     "wrangler": "^3.0.0"
