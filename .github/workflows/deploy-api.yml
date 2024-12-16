@@ -19,10 +19,9 @@ jobs:
         with:
           node-version: '22.12.0'
 
-      - name: Clean Install
-        run: |
-          rm -rf node_modules
-          npm install --legacy-peer-deps
+      - name: npm install
+        run: npm install --legacy-peer-deps
+        working-directory: ./apps/api
 
       - name: Generate Prisma client
         run: npx prisma generate --no-engine
