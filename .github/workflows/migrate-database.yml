@@ -1,0 +1,30 @@
+name: Migrate Database
+
+on:
+  push:
+    paths:
+      - 'apps/api/prisma/**'
+      - '.github/workflows/migrate-database.yml'
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.12.0'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./apps/api
+
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        working-directory: ./apps/api
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
