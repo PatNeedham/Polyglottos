@@ -19,10 +19,13 @@ jobs:
         with:
           node-version: '22.12.0'
 
-      - name: Install dependencies
+      - name: Clean Install
         run: |
+          rm -rf node_modules
           npm install --legacy-peer-deps
-          npx prisma generate --no-engine
+
+      - name: Generate Prisma client
+        run: npx prisma generate --no-engine
         working-directory: ./apps/api
 
       - name: Deploy to Cloudflare Workers
@@ -33,3 +36,4 @@ jobs:
           workingDirectory: ./apps/api
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PRISMA_CLIENT_ENGINE_TYPE: edge
