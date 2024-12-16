@@ -20,7 +20,9 @@ jobs:
           node-version: '22.12.0'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: |
+          npm install --legacy-peer-deps
+          npx prisma generate --no-engine
         working-directory: ./apps/api
 
       - name: Deploy to Cloudflare Workers
