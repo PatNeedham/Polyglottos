@@ -6,9 +6,10 @@ compatibility_date = "2023-10-01"
 [env.production]
 name = "api-production"
 
-define = { "process.env.PRISMA_CLIENT_ENGINE_TYPE" = "edge" }
-
 [env.local]
 name = "api-local"
 
-define = { "process.env.PRISMA_CLIENT_ENGINE_TYPE" = "library" }
+[[d1_databases]]
+binding = "DB"
+database_name = "polyglottos_db"
+database_id = "1492d3bf-a471-4c29-b337-08f8a90dd6eb"

@@ -1,0 +1,25 @@
+[
+  { "username": "john_doe", "email": "john_doe@polyglottos.org" },
+  { "username": "jane_doe", "email": "jane_doe@polyglottos.org" },
+  { "username": "michael_smith", "email": "michael_smith@polyglottos.org" },
+  { "username": "emily_jones", "email": "emily_jones@polyglottos.org" },
+  { "username": "jackson_brown", "email": "jackson_brown@polyglottos.org" },
+  { "username": "olivia_white", "email": "olivia_white@polyglottos.org" },
+  { "username": "lucas_davis", "email": "lucas_davis@polyglottos.org" },
+  { "username": "ava_martin", "email": "ava_martin@polyglottos.org" },
+  { "username": "benjamin_wilson", "email": "benjamin_wilson@polyglottos.org" },
+  { "username": "isabella_moore", "email": "isabella_moore@polyglottos.org" },
+  { "username": "elijah_taylor", "email": "elijah_taylor@polyglottos.org" },
+  { "username": "mia_anderson", "email": "mia_anderson@polyglottos.org" },
+  { "username": "logan_jackson", "email": "logan_jackson@polyglottos.org" },
+  { "username": "lucy_thomas", "email": "lucy_thomas@polyglottos.org" },
+  {
+    "username": "charlotte_harris",
+    "email": "charlotte_harris@polyglottos.org"
+  },
+  { "username": "daniel_clark", "email": "daniel_clark@polyglottos.org" },
+  { "username": "sophia_lewis", "email": "sophia_lewis@polyglottos.org" },
+  { "username": "william_lee", "email": "william_lee@polyglottos.org" },
+  { "username": "amelia_garcia", "email": "amelia_garcia@polyglottos.org" },
+  { "username": "noah_king", "email": "noah_king@polyglottos.org" }
+]

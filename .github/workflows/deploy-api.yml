@@ -23,16 +23,21 @@ jobs:
         run: npm install --legacy-peer-deps
         working-directory: ./apps/api
 
+      - name: Install crypto-browserify
+        run: npm install crypto-browserify
+        working-directory: ./apps/api
+
       - name: Generate Prisma client
         run: npx prisma generate --no-engine
         working-directory: ./apps/api
 
+      - name: Install latest wrangler CLI
+        run: npm uninstall -g @cloudflare/wrangler && npm install -g wrangler
+
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: ./apps/api
+        run: wrangler publish
+        working-directory: ./apps/api
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          PRISMA_CLIENT_ENGINE_TYPE: edge
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DB: ${{ secrets.CLOUDFLARE_D1_DB_URL }}

@@ -1,28 +1,50 @@
 import { Hono } from 'hono';
-import { PrismaClient } from '@prisma/client';
+import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { users } from '../db/schema';
+import { eq } from 'drizzle-orm';
+import { Bindings } from '../index';
 
-const userRoutes = (prisma: PrismaClient) => {
-  const router = new Hono();
+const userRoutes = new Hono<{
+  Bindings: Bindings;
+  Variables: { db: DrizzleD1Database };
+}>();
 
-  router.get('/', async (c) => {
-    try {
-      const users = await prisma.user.findMany();
-      return c.json(users);
-    } catch (error) {
-      console.error('Error fetching users:', error); // Log the error
-      return c.text('Internal Server Error', 500);
-    }
-  });
+userRoutes.get('/', async (c) => {
+  try {
+    const db = c.get('db') as DrizzleD1Database;
+    const userList = await db.select().from(users).all();
+    return c.json(userList);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return c.text('Internal Server Error', 500);
+  }
+});
 
-  router.get('/:id', async (c) => {
+userRoutes.get('/:id', async (c) => {
+  try {
     const id = parseInt(c.req.param('id'));
-    const user = await prisma.user.findUnique({ where: { id } });
+    const db: DrizzleD1Database = c.get('db');
+    const user = await db.select().from(users).where(eq(users.id, id)).get();
+    return user ? c.json(user) : c.text('User not found', 404);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return c.text('Internal Server Error', 500);
+  }
+});
+
+userRoutes.post('/', async (c) => {
+  try {
+    const db: DrizzleD1Database = c.get('db');
+    const { username, email, passwordHash } = await c.req.json();
+    const user = await db
+      .insert(users)
+      .values({ username, email, passwordHash })
+      .execute();
     return c.json(user);
-  });
-
-  // Add other user routes (POST, PUT, DELETE, etc.)
-
-  return router;
-};
+  } catch (error) {
+    console.error('Error creating user:', error);
+    return c.text('Internal Server Error', 500);
+  }
+});
 
 export default userRoutes;
