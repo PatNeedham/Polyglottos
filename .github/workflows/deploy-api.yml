@@ -27,10 +27,6 @@ jobs:
         run: npm install crypto-browserify
         working-directory: ./apps/api
 
-      - name: Generate Prisma client
-        run: npx prisma generate --no-engine
-        working-directory: ./apps/api
-
       - name: Install latest wrangler CLI
         run: npm uninstall -g @cloudflare/wrangler && npm install -g wrangler
 

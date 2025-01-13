@@ -23,9 +23,13 @@ jobs:
         run: npm install
         working-directory: ./apps/api
 
-      - name: Run migrations
-        run: npx prisma migrate deploy
+      - name: Generate Drizzle client
+        run: npx run db:generate
+        working-directory: ./apps/api
+      
+      - name: Push migrations
+        run: npx run db:migrate
         working-directory: ./apps/api
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SUPABASE_DIRECT_DATABASE_URL: ${{ secrets.SUPABASE_DIRECT_DATABASE_URL }}
+          DATABASE_URL: ${{secrets.DATABASE_URL }}
+
