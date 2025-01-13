@@ -4,7 +4,7 @@
   "scripts": {
     "start": "NODE_ENV=development tsx src/local.ts",
     "build": "npx wrangler deploy",
-    "db:generate": "npx drizzle-kit generate --schema=./src/db/schema.ts",
+    "db:generate": "npx drizzle-kit generate --schema=./src/db/schema.ts --dialect=sqlite",
     "db:push": "DATABASE_URL=\"file:./polyglottos.db\" drizzle-kit push:sqlite --schema=./src/db/schema.ts",
     "seed": "tsx src/db/seed.ts"
   },
