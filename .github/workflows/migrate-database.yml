@@ -28,7 +28,7 @@ jobs:
         working-directory: ./apps/api
       
       - name: Push migrations
-        run: npm run db:migrate
+        run: npm run db:push
         working-directory: ./apps/api
         env:
           DATABASE_URL: ${{secrets.DATABASE_URL }}
