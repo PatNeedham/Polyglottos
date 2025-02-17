@@ -29,6 +29,12 @@ jobs:
         run: npm install
         working-directory: ./apps/api
 
+      - name: Create _drizzle_migrations table (if it doesn't exist)
+        run: npx wrangler d1 execute polyglottos_db --command "CREATE TABLE IF NOT EXISTS _drizzle_migrations (id TEXT PRIMARY KEY, hash TEXT NOT NULL, created_at TEXT NOT NULL)"
+        working-directory: ./apps/api
+        env:
+          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
+
       - name: Generate Drizzle client and Apply Migrations
         run: npm run db:migrate
         working-directory: ./apps/api
