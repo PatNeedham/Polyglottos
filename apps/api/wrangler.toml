@@ -12,7 +12,7 @@ name = "api-local"
 [[d1_databases]]
 binding = "DB"
 database_name = "polyglottos_db"
-database_id = "1492d3bf-a471-4c29-b337-08f8a90dd6eb"
+database_id = "${D1_DATABASE_ID}" 
 
 [observability]
 enabled = true

@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1739759049365,
+      "tag": "0000_flashy_harpoon",
+      "breakpoints": true
+    }
+  ]
+}

@@ -4,18 +4,33 @@ An open-source language learning platform designed to make acquiring new languag
 
 ## Features
 
-* **Core Features (Initial Release):**
-    * User authentication and profiles
-    * Interactive quizzes (multiple choice, fill-in-the-blank, etc.)
-    * Lessons/Challenges composed of multiple quizzes
-    * Basic progress tracking (quizzes completed, lessons finished)
+- **Core Features (Initial Release):**
 
-* **Planned Features:**
-    *  Gamification elements (points, leaderboards, streaks)
-    *  Expanded quiz types (image labeling, audio recognition)
-    *  Difficulty levels for quizzes and lessons
-    *  More detailed progress statistics (accuracy by topic, rolling averages)
-    *  Community features (user forums, shared resources)
+  - User authentication and profiles
+  - Interactive quizzes (multiple choice, fill-in-the-blank, etc.)
+  - Lessons/Challenges composed of multiple quizzes
+  - Basic progress tracking (quizzes completed, lessons finished)
+
+- **Planned Features:**
+  - Gamification elements (points, leaderboards, streaks)
+  - Expanded quiz types (image labeling, audio recognition)
+  - Difficulty levels for quizzes and lessons
+  - More detailed progress statistics (accuracy by topic, rolling averages)
+  - Community features (user forums, shared resources)
+
+## Diagram
+
+```mermaid
+graph TD
+    A[User] --> B[userLanguage]
+    B --> C[userTopic]
+    C --> D[userLanguages]
+    D --> V[LanguageLevel]
+    V --> W[TopicLevel]
+    W --> X[Topic]
+    Y[Topic] --> Z[Language]
+    Z --> U[User]
+```
 
 ## Contributing
 

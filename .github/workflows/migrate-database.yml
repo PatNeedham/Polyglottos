@@ -2,13 +2,19 @@ name: Migrate Database
 
 on:
   push:
+    branches:
+      - main
     paths:
-      - 'apps/api/prisma/**'
+      - 'apps/api/src/db/**'
+      - 'apps/api/drizzle/**'
+      - 'apps/api/drizzle.config.ts'
+      - 'apps/api/src/db_migrate.sh'
       - '.github/workflows/migrate-database.yml'
 
 jobs:
   migrate:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout repository
@@ -23,13 +29,8 @@ jobs:
         run: npm install
         working-directory: ./apps/api
 
-      - name: Generate Drizzle client
-        run: npm run db:generate
-        working-directory: ./apps/api
-      
-      - name: Push migrations
-        run: npm run db:push
+      - name: Generate Drizzle client and Apply Migrations
+        run: npm run db:migrate
         working-directory: ./apps/api
         env:
-          DATABASE_URL: ${{secrets.DATABASE_URL }}
-
+          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}

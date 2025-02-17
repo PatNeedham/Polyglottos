@@ -1,4 +1,4 @@
-import { Hono } from 'hono';
+import { Hono, Context } from 'hono';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
@@ -11,7 +11,7 @@ const userRoutes = new Hono<{
 
 userRoutes.get('/', async (c) => {
   try {
-    const db = c.get('db') as DrizzleD1Database;
+    const db = (c as Context & { db: DrizzleD1Database }).db;
     const userList = await db.select().from(users).all();
     return c.json(userList);
   } catch (error) {
@@ -23,7 +23,7 @@ userRoutes.get('/', async (c) => {
 userRoutes.get('/:id', async (c) => {
   try {
     const id = parseInt(c.req.param('id'));
-    const db: DrizzleD1Database = c.get('db');
+    const db = (c as Context & { db: DrizzleD1Database }).db;
     const user = await db.select().from(users).where(eq(users.id, id)).get();
     return user ? c.json(user) : c.text('User not found', 404);
   } catch (error) {
@@ -34,7 +34,7 @@ userRoutes.get('/:id', async (c) => {
 
 userRoutes.post('/', async (c) => {
   try {
-    const db: DrizzleD1Database = c.get('db');
+    const db = (c as Context & { db: DrizzleD1Database }).db;
     const { username, email, passwordHash } = await c.req.json();
     const user = await db
       .insert(users)

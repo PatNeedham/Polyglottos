@@ -2,10 +2,10 @@
   "name": "api",
   "version": "0.0.1",
   "scripts": {
-    "start": "NODE_ENV=development tsx src/local.ts",
+    "start": "wrangler dev",
     "build": "npx wrangler deploy",
-    "db:generate": "npx drizzle-kit generate --schema=./src/db/schema.ts --dialect=sqlite",
-    "db:push": "DATABASE_URL=\"file:./polyglottos.db\" drizzle-kit push:sqlite --schema=./src/db/schema.ts",
+    "db:generate": "npx drizzle-kit generate --schema=./src/db/schema/index.ts --dialect=sqlite",
+    "db:migrate": "./src/db_migrate.sh",
     "seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
