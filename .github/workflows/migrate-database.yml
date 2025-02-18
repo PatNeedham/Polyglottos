@@ -29,9 +29,14 @@ jobs:
         run: npm install
         working-directory: ./apps/api
 
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
       - name: Create _drizzle_migrations table (if it doesn't exist)
         run: |
-          npx wrangler d1 execute polyglottos_db --command "CREATE TABLE IF NOT EXISTS _drizzle_migrations (id TEXT PRIMARY KEY, hash TEXT NOT NULL, created_at TEXT NOT NULL)"
+          npx wrangler d1 execute polyglottos_db --remote --command "CREATE TABLE IF NOT EXISTS _drizzle_migrations (id TEXT PRIMARY KEY, hash TEXT NOT NULL, created_at TEXT NOT NULL)"
         working-directory: ./apps/api
         env:
           D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
@@ -41,3 +46,4 @@ jobs:
         working-directory: ./apps/api
         env:
           D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
+          REMOTE_ENV: true

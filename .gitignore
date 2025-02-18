@@ -11,6 +11,12 @@ node_modules
 # Ignore Wrangler directory
 .wrangler/
 
+# Ignore generated Wrangler config files for API
+/apps/api/wrangler.toml
+
+# Do not ignore the example file
+!/apps/api/wrangler.toml.example
+
 # IDEs and editors
 /.idea
 .project

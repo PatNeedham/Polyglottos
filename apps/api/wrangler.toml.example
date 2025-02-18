@@ -1,0 +1,23 @@
+# Template Wrangler configuration.
+# To generate the actual configuration file with your real database id, run:
+#   envsubst < ./apps/api/wrangler.toml.example > ./apps/api/wrangler.toml
+# The generated file (wrangler.toml) is git-ignored, so do NOT edit it directly.
+
+name = "polyglottos-api"
+main = "./src/index.ts"
+workers_dev = true
+compatibility_date = "2023-10-01"
+
+[env.production]
+name = "api-production"
+
+[env.local]
+name = "api-local"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "polyglottos_db"
+database_id = "${D1_DATABASE_ID}"  # Replace with your real database id via envsubst
+
+[observability]
+enabled = true
