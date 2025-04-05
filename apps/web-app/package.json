@@ -1,7 +1,10 @@
 {
   "private": true,
   "name": "web-app",
-  "scripts": {},
+  "scripts": {
+    "build": "npx remix vite:build",
+    "dev": "npx remix dev"
+  },
   "type": "module",
   "dependencies": {
     "@remix-run/node": "^2.14.0",

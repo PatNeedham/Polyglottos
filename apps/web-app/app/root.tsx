@@ -4,29 +4,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
+  isRouteErrorResponse,
 } from '@remix-run/react';
-import type { MetaFunction, LinksFunction } from '@remix-run/node';
+import type { LinksFunction } from '@remix-run/node';
 
-export const meta: MetaFunction = () => [
-  {
-    title: 'New Remix App',
-  },
-];
+import styles from './styles/global.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-  },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -34,9 +21,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <title>Polyglottos - Learn Languages</title>
       </head>
       <body>
-        {children}
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -44,6 +32,48 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <Meta />
+          <Links />
+          <title>Error - Polyglottos</title>
+        </head>
+        <body>
+          <div className="error-container">
+            <h1>
+              {error.status} {error.statusText}
+            </h1>
+            <p>{error.data}</p>
+            <a href="/">Back to Home</a>
+          </div>
+          <Scripts />
+        </body>
+      </html>
+    );
+  }
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <Meta />
+        <Links />
+        <title>Error - Polyglottos</title>
+      </head>
+      <body>
+        <div className="error-container">
+          <h1>Something went wrong</h1>
+          <p>An unexpected error occurred. Please try again later.</p>
+          <a href="/">Back to Home</a>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  );
 }
