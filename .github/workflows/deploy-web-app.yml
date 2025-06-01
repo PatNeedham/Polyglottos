@@ -1,0 +1,36 @@
+name: Deploy Web App
+
+on:
+  push:
+    paths:
+      - 'apps/web-app/**'
+      - '.github/workflows/deploy-web-app.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.12.0'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./apps/web-app
+
+      - name: Build project
+        run: npm run build
+        working-directory: ./apps/web-app
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: polyglottos-app
+          directory: ./apps/web-app/dist
