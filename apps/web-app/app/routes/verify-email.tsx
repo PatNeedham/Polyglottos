@@ -1,15 +1,15 @@
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData, Link } from '@remix-run/react';
+import { useLoaderData, Link } from 'react-router';
+import type { ClientLoaderFunctionArgs } from 'react-router';
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const url = new URL(request.url);
   const token = url.searchParams.get('token');
 
   if (!token) {
-    return json({
+    return {
       status: 'error',
       message: 'No verification token provided',
-    });
+    };
   }
 
   try {
@@ -20,27 +20,27 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const data = await response.json();
 
     if (!response.ok) {
-      return json({
+      return {
         status: 'error',
         message: data.error || 'Verification failed',
-      });
+      };
     }
 
-    return json({
+    return {
       status: 'success',
       message: 'Email successfully verified',
-    });
+    };
   } catch (error) {
     console.error('Error verifying email:', error);
-    return json({
+    return {
       status: 'error',
       message: 'An error occurred while verifying your email',
-    });
+    };
   }
 }
 
 export default function VerifyEmail() {
-  const { status, message } = useLoaderData<typeof loader>();
+  const { status, message } = useLoaderData<typeof clientLoader>();
 
   return (
     <div className="verification-container">

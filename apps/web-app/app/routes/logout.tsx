@@ -1,19 +1,18 @@
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
-import { commitSession, getSession } from '~/utils/session';
-
-export async function action({ request }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
-
-  session.unset('userId');
-  session.unset('token');
-
-  return redirect('/login', {
-    headers: {
-      'Set-Cookie': await commitSession(session),
-    },
-  });
-}
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { destroySession } from '~/utils/session';
 
 export default function Logout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleLogout = async () => {
+      await destroySession();
+      navigate('/login');
+    };
+
+    handleLogout();
+  }, [navigate]);
+
   return <p>Logging out...</p>;
 }

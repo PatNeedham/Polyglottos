@@ -2,20 +2,23 @@
   "private": true,
   "name": "web-app",
   "scripts": {
-    "build": "npx remix vite:build",
-    "dev": "npx remix dev"
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview"
   },
   "type": "module",
   "dependencies": {
-    "@remix-run/node": "^2.14.0",
-    "@remix-run/react": "^2.14.0",
-    "@remix-run/serve": "^2.14.0",
-    "isbot": "^4.4.0",
+    "@react-router/node": "^7.0.0",
+    "@react-router/serve": "^7.0.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "isbot": "^5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router": "^7.0.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.14.0",
+    "@react-router/dev": "^7.0.0",
+    "@types/node": "^22.15.29",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0"
   },

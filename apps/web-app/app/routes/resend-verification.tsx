@@ -1,12 +1,12 @@
-import { ActionFunctionArgs, json } from '@remix-run/node';
-import { Form, useActionData, useNavigation } from '@remix-run/react';
+import type { ClientActionFunctionArgs } from 'react-router';
+import { Form, useActionData, useNavigation } from 'react-router';
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function clientAction({ request }: ClientActionFunctionArgs) {
   const formData = await request.formData();
   const email = formData.get('email') as string;
 
   if (!email) {
-    return json({ error: 'Email is required' }, { status: 400 });
+    return { error: 'Email is required' };
   }
 
   try {
@@ -19,24 +19,21 @@ export async function action({ request }: ActionFunctionArgs) {
 
     const data = await response.json();
 
-    return json({
+    return {
       success: true,
       message:
         data.message || 'Verification email sent. Please check your inbox.',
-    });
+    };
   } catch (error) {
     console.error('Error resending verification email:', error);
-    return json(
-      {
-        error: 'Failed to send verification email. Please try again later.',
-      },
-      { status: 500 }
-    );
+    return {
+      error: 'Failed to send verification email. Please try again later.',
+    };
   }
 }
 
 export default function ResendVerification() {
-  const actionData = useActionData<typeof action>();
+  const actionData = useActionData<typeof clientAction>();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 

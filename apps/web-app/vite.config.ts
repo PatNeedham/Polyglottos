@@ -1,25 +1,25 @@
-import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-
-declare module '@remix-run/node' {
-  interface Future {
-    v3_singleFetch: true;
-  }
-}
+import path from 'path';
 
 export default defineConfig({
   root: __dirname,
-  plugins: [
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-        v3_singleFetch: true,
-        v3_lazyRouteDiscovery: true,
-      },
-    }),
-    nxViteTsPaths(),
-  ],
+  plugins: [react(), nxViteTsPaths()],
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, 'app'),
+      // Force using local React Router v7 instead of workspace v6
+      'react-router-dom': path.resolve(__dirname, 'node_modules/react-router'),
+    },
+    dedupe: ['react-router'],
+  },
+  optimizeDeps: {
+    include: ['react-router', 'react-router > @remix-run/router'],
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(
+      process.env.NODE_ENV || 'development'
+    ),
+  },
 });

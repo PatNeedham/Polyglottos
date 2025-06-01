@@ -1,46 +1,36 @@
-import {
-  ActionFunctionArgs,
-  json,
-  LoaderFunctionArgs,
-  redirect,
-} from '@remix-run/node';
-import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
+import { redirect } from 'react-router';
+import type { ClientActionFunctionArgs } from 'react-router';
+import { Form, Link, useActionData, useNavigation } from 'react-router';
 import { getSession } from '~/utils/session';
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
+export async function clientLoader() {
+  const session = await getSession();
 
   if (session.has('userId')) {
     return redirect('/');
   }
 
-  return json({});
+  return {};
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function clientAction({ request }: ClientActionFunctionArgs) {
   const formData = await request.formData();
   const username = formData.get('username') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
   if (!username || !email || !password) {
-    return json(
-      {
-        error: 'All fields are required',
-        fields: { username, email, password },
-      },
-      { status: 400 }
-    );
+    return {
+      error: 'All fields are required',
+      fields: { username, email, password },
+    };
   }
 
   if (password.length < 6) {
-    return json(
-      {
-        error: 'Password must be at least 6 characters',
-        fields: { username, email },
-      },
-      { status: 400 }
-    );
+    return {
+      error: 'Password must be at least 6 characters',
+      fields: { username, email },
+    };
   }
 
   try {
@@ -54,30 +44,24 @@ export async function action({ request }: ActionFunctionArgs) {
     console.log('data:', data);
 
     if (!response.ok) {
-      return json(
-        {
-          error: data.error || 'Sign up failed',
-          fields: { username, email },
-        },
-        { status: response.status }
-      );
+      return {
+        error: data.error || 'Sign up failed',
+        fields: { username, email },
+      };
     }
 
     return redirect('/login?signupSuccess=true');
   } catch (error) {
     console.error('Signup error:', error);
-    return json(
-      {
-        error: 'Sign up failed. Please try again.',
-        fields: { username, email },
-      },
-      { status: 500 }
-    );
+    return {
+      error: 'Sign up failed. Please try again.',
+      fields: { username, email },
+    };
   }
 }
 
 export default function Signup() {
-  const actionData = useActionData<typeof action>();
+  const actionData = useActionData<typeof clientAction>();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 
