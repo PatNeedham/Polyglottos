@@ -1,6 +1,7 @@
 import { Outlet, useRouteError, isRouteErrorResponse } from 'react-router';
 
 import './styles/global.css';
+import './styles/example.css';
 
 export default function App() {
   return <Outlet />;

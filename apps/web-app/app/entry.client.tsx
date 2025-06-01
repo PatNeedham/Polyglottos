@@ -13,6 +13,7 @@ import Signup from './routes/signup';
 import Logout from './routes/logout';
 import VerifyEmail from './routes/verify-email';
 import ResendVerification from './routes/resend-verification';
+import Example from './routes/example';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: 'resend-verification',
         element: <ResendVerification />,
+      },
+      {
+        path: 'example',
+        element: <Example />,
       },
     ],
   },
