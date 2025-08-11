@@ -3,6 +3,15 @@ import { vi, expect, test } from 'vitest';
 import React from 'react';
 import Index from '../../app/routes/_index';
 
+// Mock the storage service to prevent IndexedDB/API calls during tests
+vi.mock('../../app/services/storage', () => ({
+  getStorageService: vi.fn(() => ({
+    getSession: vi.fn().mockResolvedValue({ userId: 'test-user-id' }),
+    setSession: vi.fn().mockResolvedValue(undefined),
+    clearSession: vi.fn().mockResolvedValue(undefined),
+  })),
+}));
+
 // Mock the session utility since we don't have localStorage in test environment
 vi.mock('../../app/utils/session', () => ({
   getSession: vi.fn().mockResolvedValue({
