@@ -1,0 +1,37 @@
+{
+  "title": "Basic Greetings and Introductions",
+  "description": "Learn essential Spanish greetings, farewells, and how to introduce yourself to others.",
+  "order": 1,
+  "difficulty": "beginner",
+  "estimatedMinutes": 25,
+  "objectives": [
+    "Students will be able to greet people in Spanish using appropriate expressions",
+    "Students will be able to introduce themselves and ask others' names",
+    "Students will understand when to use formal vs informal greetings"
+  ],
+  "topics": ["greetings", "introductions", "formal-informal", "pronunciation"],
+  "vocabulary": [
+    {
+      "term": "hola",
+      "definition": "hello (informal greeting)",
+      "pronunciation": "OH-lah"
+    },
+    {
+      "term": "buenos días",
+      "definition": "good morning (formal)",
+      "pronunciation": "BWAY-nohs DEE-ahs"
+    },
+    {
+      "term": "me llamo",
+      "definition": "my name is",
+      "pronunciation": "meh YAH-moh"
+    },
+    {
+      "term": "¿cómo te llamas?",
+      "definition": "what is your name? (informal)",
+      "pronunciation": "KOH-moh teh YAH-mahs"
+    }
+  ],
+  "prerequisites": [],
+  "quizCount": 2
+}

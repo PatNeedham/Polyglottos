@@ -1,0 +1,19 @@
+{
+  "title": "Spanish for English Speakers",
+  "description": "A comprehensive beginner course teaching Spanish fundamentals to English speakers, covering basic vocabulary, grammar, and conversation skills.",
+  "sourceLanguage": "en",
+  "targetLanguage": "es", 
+  "difficulty": "beginner",
+  "estimatedHours": 25,
+  "version": "1.0.0",
+  "tags": ["vocabulary", "grammar", "conversation", "pronunciation"],
+  "prerequisites": [],
+  "authors": [
+    {
+      "name": "Polyglottos Team",
+      "email": "content@polyglottos.com",
+      "github": "PatNeedham"
+    }
+  ],
+  "lastUpdated": "2024-12-13"
+}
