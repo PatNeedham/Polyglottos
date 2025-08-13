@@ -1,0 +1,22 @@
+{
+  "title": "Lesson Title",
+  "description": "Brief description of what this lesson covers and what students will learn.",
+  "order": 1,
+  "difficulty": "beginner",
+  "estimatedMinutes": 30,
+  "objectives": [
+    "Students will be able to identify and use basic vocabulary",
+    "Students will understand key grammar concepts",
+    "Students will be able to form simple sentences"
+  ],
+  "topics": ["vocabulary", "grammar", "pronunciation"],
+  "vocabulary": [
+    {
+      "term": "hola",
+      "definition": "hello (Spanish greeting)",
+      "pronunciation": "OH-lah"
+    }
+  ],
+  "prerequisites": [],
+  "quizCount": 2
+}

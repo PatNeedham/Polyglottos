@@ -1,0 +1,128 @@
+name: Validate Course Content
+
+on:
+  pull_request:
+    paths:
+      - 'courses/**'
+  push:
+    paths:
+      - 'courses/**'
+
+jobs:
+  validate-content:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install -g ajv-cli
+          npm install -g markdownlint-cli
+
+      - name: Validate JSON schemas
+        run: |
+          echo "Validating course metadata files..."
+          find courses -name "course-metadata.json" -not -path "*/templates/*" -not -path "*/schemas/*" | while read file; do
+            echo "Validating $file"
+            ajv validate -s courses/schemas/course-metadata.json -d "$file" || exit 1
+          done
+          
+          echo "Validating lesson metadata files..."
+          find courses -name "metadata.json" -not -path "*/templates/*" -not -path "*/schemas/*" | while read file; do
+            echo "Validating $file"
+            ajv validate -s courses/schemas/lesson-metadata.json -d "$file" || exit 1
+          done
+          
+          echo "Validating quiz files..."
+          find courses -name "quiz-*.json" -not -path "*/templates/*" -not -path "*/schemas/*" | while read file; do
+            echo "Validating $file"
+            ajv validate -s courses/schemas/quiz-metadata.json -d "$file" || exit 1
+          done
+
+      - name: Validate Markdown files
+        run: |
+          echo "Validating Markdown files..."
+          find courses -name "*.md" -not -path "*/templates/*" -not -path "*/schemas/*" | while read file; do
+            echo "Linting $file"
+            markdownlint "$file" || exit 1
+          done
+
+      - name: Check folder structure
+        run: |
+          echo "Checking folder structure compliance..."
+          python3 - << 'EOF'
+          import os
+          import sys
+          import re
+          
+          def validate_language_code(code):
+              # ISO 639-1 language codes are 2 lowercase letters
+              return re.match(r'^[a-z]{2}$', code) is not None
+          
+          def check_course_structure():
+              courses_dir = 'courses'
+              errors = []
+              
+              if not os.path.exists(courses_dir):
+                  errors.append("courses directory does not exist")
+                  return errors
+              
+              for item in os.listdir(courses_dir):
+                  if item in ['templates', 'schemas', 'README.md', '.gitkeep']:
+                      continue
+                      
+                  source_lang_path = os.path.join(courses_dir, item)
+                  if not os.path.isdir(source_lang_path):
+                      continue
+                  
+                  if not validate_language_code(item):
+                      errors.append(f"Invalid source language code: {item}")
+                      continue
+                  
+                  for target_lang in os.listdir(source_lang_path):
+                      target_lang_path = os.path.join(source_lang_path, target_lang)
+                      if not os.path.isdir(target_lang_path):
+                          continue
+                      
+                      if not validate_language_code(target_lang):
+                          errors.append(f"Invalid target language code: {target_lang}")
+                          continue
+                      
+                      # Check for required files
+                      course_metadata = os.path.join(target_lang_path, 'course-metadata.json')
+                      if not os.path.exists(course_metadata):
+                          errors.append(f"Missing course-metadata.json in {source_lang_path}/{target_lang}")
+                      
+                      lessons_dir = os.path.join(target_lang_path, 'lessons')
+                      if os.path.exists(lessons_dir):
+                          for lesson in os.listdir(lessons_dir):
+                              lesson_path = os.path.join(lessons_dir, lesson)
+                              if os.path.isdir(lesson_path):
+                                  metadata_file = os.path.join(lesson_path, 'metadata.json')
+                                  if not os.path.exists(metadata_file):
+                                      errors.append(f"Missing metadata.json in lesson {lesson_path}")
+              
+              return errors
+          
+          errors = check_course_structure()
+          if errors:
+              print("Structure validation errors found:")
+              for error in errors:
+                  print(f"  - {error}")
+              sys.exit(1)
+          else:
+              print("Folder structure validation passed!")
+          EOF
+
+      - name: Content validation summary
+        run: |
+          echo "✅ All course content validation checks passed!"
+          echo "📚 Course content is ready for integration"

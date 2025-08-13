@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://polyglottos.com/schemas/quiz-metadata.json",
+  "title": "Quiz Metadata Schema",
+  "description": "Schema for quiz metadata and content in Polyglottos courses",
+  "type": "object",
+  "required": [
+    "title",
+    "type",
+    "difficulty",
+    "questions"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Quiz title",
+      "minLength": 5,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "description": "Quiz description",
+      "maxLength": 200
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "multiple-choice",
+        "fill-in-blank",
+        "translation",
+        "listening",
+        "speaking",
+        "matching",
+        "ordering"
+      ],
+      "description": "Type of quiz"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"],
+      "description": "Quiz difficulty level"
+    },
+    "timeLimit": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 1800,
+      "description": "Time limit in seconds (optional)"
+    },
+    "passingScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Passing score percentage (default: 70)"
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["question", "type"],
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 300,
+            "description": "The question text"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "multiple-choice",
+              "fill-in-blank",
+              "translation",
+              "listening",
+              "speaking",
+              "matching",
+              "ordering"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "maxItems": 6,
+            "description": "Answer options for multiple choice questions"
+          },
+          "correctAnswer": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Correct answer for single-answer questions"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Correct answers for multiple-answer questions"
+              }
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Explanation of the correct answer"
+          },
+          "hints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "maxItems": 3,
+            "description": "Optional hints for the question"
+          },
+          "audioUrl": {
+            "type": "string",
+            "pattern": "^https?://.*",
+            "description": "Audio file URL for listening questions"
+          },
+          "imageUrl": {
+            "type": "string",
+            "pattern": "^https?://.*",
+            "description": "Image URL for visual questions"
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "Points awarded for correct answer (default: 1)"
+          }
+        },
+        "if": {
+          "properties": {
+            "type": {
+              "const": "multiple-choice"
+            }
+          }
+        },
+        "then": {
+          "required": ["options", "correctAnswer"]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

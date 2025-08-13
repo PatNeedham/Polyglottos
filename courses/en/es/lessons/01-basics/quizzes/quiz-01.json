@@ -1,0 +1,79 @@
+{
+  "title": "Greetings Multiple Choice Quiz",
+  "description": "Test your knowledge of basic Spanish greetings and introductions",
+  "type": "multiple-choice",
+  "difficulty": "beginner",
+  "timeLimit": 300,
+  "passingScore": 70,
+  "questions": [
+    {
+      "question": "What does 'hola' mean in English?",
+      "type": "multiple-choice",
+      "options": [
+        "goodbye",
+        "hello",
+        "thank you",
+        "please"
+      ],
+      "correctAnswer": "hello",
+      "explanation": "'Hola' is the most common Spanish greeting meaning 'hello'.",
+      "hints": ["Think about common greetings"],
+      "points": 1
+    },
+    {
+      "question": "Which greeting would you use at 10 AM?",
+      "type": "multiple-choice", 
+      "options": [
+        "buenas noches",
+        "buenas tardes",
+        "buenos días",
+        "hola"
+      ],
+      "correctAnswer": "buenos días",
+      "explanation": "'Buenos días' is used in the morning until around 12 PM.",
+      "hints": ["Consider the time of day"],
+      "points": 1
+    },
+    {
+      "question": "How do you ask someone's name informally?",
+      "type": "multiple-choice",
+      "options": [
+        "¿cómo se llama usted?",
+        "¿cómo te llamas?",
+        "me llamo",
+        "mucho gusto"
+      ],
+      "correctAnswer": "¿cómo te llamas?",
+      "explanation": "'¿Cómo te llamas?' is the informal way to ask someone's name.",
+      "hints": ["Think about informal vs formal"],
+      "points": 1
+    },
+    {
+      "question": "What do you say to express 'nice to meet you'?",
+      "type": "multiple-choice",
+      "options": [
+        "me llamo",
+        "mucho gusto",
+        "buenos días",
+        "adiós"
+      ],
+      "correctAnswer": "mucho gusto",
+      "explanation": "'Mucho gusto' means 'nice to meet you' or 'pleased to meet you'.",
+      "points": 1
+    },
+    {
+      "question": "Which is the formal way to ask someone's name?",
+      "type": "multiple-choice",
+      "options": [
+        "¿cómo te llamas?",
+        "¿cómo se llama usted?",
+        "me llamo",
+        "hola"
+      ],
+      "correctAnswer": "¿cómo se llama usted?",
+      "explanation": "'¿Cómo se llama usted?' is the formal way to ask someone's name.",
+      "hints": ["Look for 'usted' for formal"],
+      "points": 1
+    }
+  ]
+}

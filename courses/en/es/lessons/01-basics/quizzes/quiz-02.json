@@ -1,0 +1,50 @@
+{
+  "title": "Fill in the Blank - Introductions",
+  "description": "Complete the conversations with the correct Spanish words and phrases",
+  "type": "fill-in-blank",
+  "difficulty": "beginner",
+  "timeLimit": 400,
+  "passingScore": 70,
+  "questions": [
+    {
+      "question": "Complete the greeting: '_____ días' (Good morning)",
+      "type": "fill-in-blank",
+      "correctAnswer": "buenos",
+      "explanation": "'Buenos días' means 'good morning' in Spanish.",
+      "hints": ["This word means 'good' (masculine plural)"],
+      "points": 1
+    },
+    {
+      "question": "Fill in the introduction: '_____ llamo María' (My name is María)",
+      "type": "fill-in-blank",
+      "correctAnswer": "me",
+      "explanation": "'Me llamo' is how you say 'my name is' in Spanish.",
+      "hints": ["This is a reflexive pronoun meaning 'myself'"],
+      "points": 1
+    },
+    {
+      "question": "Complete the question: '¿Cómo _____ llamas?' (What is your name?)",
+      "type": "fill-in-blank",
+      "correctAnswer": "te",
+      "explanation": "'¿Cómo te llamas?' is the informal way to ask someone's name.",
+      "hints": ["This is the informal 'you' pronoun"],
+      "points": 1
+    },
+    {
+      "question": "Say goodbye: '_____' (Goodbye)",
+      "type": "fill-in-blank",
+      "correctAnswer": "adiós",
+      "explanation": "'Adiós' means 'goodbye' in Spanish.",
+      "hints": ["This is the most common way to say goodbye"],
+      "points": 1
+    },
+    {
+      "question": "Complete the phrase: '_____ gusto' (Nice to meet you)",
+      "type": "fill-in-blank",
+      "correctAnswer": "mucho",
+      "explanation": "'Mucho gusto' means 'nice to meet you' - literally 'much pleasure'.",
+      "hints": ["This word means 'much' or 'a lot'"],
+      "points": 1
+    }
+  ]
+}
