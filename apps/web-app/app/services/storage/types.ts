@@ -32,9 +32,16 @@ export interface SessionData {
   [key: string]: unknown;
 }
 
-export interface StorageError extends Error {
+export class StorageError extends Error {
   code: string;
   recoverable: boolean;
+  
+  constructor(message: string, code: string, recoverable: boolean = false) {
+    super(message);
+    this.name = 'StorageError';
+    this.code = code;
+    this.recoverable = recoverable;
+  }
 }
 
 /**
