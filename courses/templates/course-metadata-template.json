@@ -1,0 +1,19 @@
+{
+  "title": "Course Title Here",
+  "description": "A comprehensive description of what students will learn in this course. Include key topics, skills, and outcomes.",
+  "sourceLanguage": "en",
+  "targetLanguage": "es",
+  "difficulty": "beginner",
+  "estimatedHours": 20,
+  "version": "1.0.0",
+  "tags": ["vocabulary", "grammar", "conversation"],
+  "prerequisites": [],
+  "authors": [
+    {
+      "name": "Your Name",
+      "email": "your.email@example.com",
+      "github": "your-github-username"
+    }
+  ],
+  "lastUpdated": "2024-01-01"
+}

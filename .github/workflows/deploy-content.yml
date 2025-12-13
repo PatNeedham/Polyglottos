@@ -1,0 +1,146 @@
+name: Deploy Course Content
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'courses/**'
+
+jobs:
+  deploy-content:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[deploy-content]') || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate content before deployment
+        run: |
+          npm install -g ajv-cli
+          
+          echo "Final validation before deployment..."
+          find courses -name "course-metadata.json" -not -path "*/templates/*" | while read file; do
+            ajv validate -s courses/schemas/course-metadata.json -d "$file"
+          done
+          
+          find courses -name "metadata.json" -not -path "*/templates/*" | while read file; do
+            ajv validate -s courses/schemas/lesson-metadata.json -d "$file"
+          done
+          
+          find courses -name "quiz-*.json" -not -path "*/templates/*" | while read file; do
+            ajv validate -s courses/schemas/quiz-metadata.json -d "$file"
+          done
+
+      - name: Generate content index
+        run: |
+          echo "Generating content index..."
+          python3 - << 'EOF'
+          import os
+          import json
+          from datetime import datetime
+          
+          def generate_content_index():
+              courses = []
+              
+              for source_lang in os.listdir('courses'):
+                  if source_lang in ['templates', 'schemas', 'README.md']:
+                      continue
+                      
+                  source_path = os.path.join('courses', source_lang)
+                  if not os.path.isdir(source_path):
+                      continue
+                  
+                  for target_lang in os.listdir(source_path):
+                      target_path = os.path.join(source_path, target_lang)
+                      if not os.path.isdir(target_path):
+                          continue
+                      
+                      course_metadata_path = os.path.join(target_path, 'course-metadata.json')
+                      if os.path.exists(course_metadata_path):
+                          with open(course_metadata_path, 'r') as f:
+                              course_data = json.load(f)
+                          
+                          # Count lessons and quizzes
+                          lessons_path = os.path.join(target_path, 'lessons')
+                          lesson_count = 0
+                          quiz_count = 0
+                          
+                          if os.path.exists(lessons_path):
+                              for lesson in os.listdir(lessons_path):
+                                  lesson_path = os.path.join(lessons_path, lesson)
+                                  if os.path.isdir(lesson_path):
+                                      lesson_count += 1
+                                      quizzes_path = os.path.join(lesson_path, 'quizzes')
+                                      if os.path.exists(quizzes_path):
+                                          quiz_count += len([f for f in os.listdir(quizzes_path) if f.endswith('.json')])
+                          
+                          course_entry = {
+                              'path': f'{source_lang}/{target_lang}',
+                              'sourceLanguage': course_data['sourceLanguage'],
+                              'targetLanguage': course_data['targetLanguage'],
+                              'title': course_data['title'],
+                              'description': course_data['description'],
+                              'difficulty': course_data['difficulty'],
+                              'estimatedHours': course_data['estimatedHours'],
+                              'lessonCount': lesson_count,
+                              'quizCount': quiz_count,
+                              'lastUpdated': course_data.get('lastUpdated'),
+                              'version': course_data['version']
+                          }
+                          courses.append(course_entry)
+              
+              index = {
+                  'generated': datetime.now().isoformat(),
+                  'totalCourses': len(courses),
+                  'courses': courses
+              }
+              
+              with open('courses/index.json', 'w') as f:
+                  json.dump(index, f, indent=2)
+              
+              print(f"Generated index with {len(courses)} courses")
+          
+          generate_content_index()
+          EOF
+
+      - name: Upload content artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: course-content
+          path: |
+            courses/
+            !courses/templates/
+            !courses/schemas/
+
+      - name: Deploy to content API
+        run: |
+          echo "Content deployment complete!"
+          echo "📚 Total courses available: $(cat courses/index.json | jq '.totalCourses')"
+          echo "🔄 Content index updated at: $(date)"
+          
+          # In a real deployment, this would push to a content API or storage service
+          # Example integrations:
+          # - Upload to cloud storage (S3, GCS, etc.)
+          # - Deploy to content API
+          # - Update course database
+          # - Trigger cache invalidation
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Course content deployed successfully!"
+          else
+            echo "❌ Course content deployment failed!"
+            exit 1
+          fi

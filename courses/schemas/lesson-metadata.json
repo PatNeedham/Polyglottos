@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://polyglottos.com/schemas/lesson-metadata.json",
+  "title": "Lesson Metadata Schema",
+  "description": "Schema for lesson metadata in Polyglottos courses",
+  "type": "object",
+  "required": [
+    "title",
+    "description",
+    "order",
+    "difficulty",
+    "estimatedMinutes",
+    "objectives"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Lesson title",
+      "minLength": 5,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "description": "Lesson description",
+      "minLength": 20,
+      "maxLength": 300
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Order of the lesson in the course"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"],
+      "description": "Lesson difficulty level"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 180,
+      "description": "Estimated completion time in minutes"
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 100
+      },
+      "minItems": 1,
+      "maxItems": 5,
+      "description": "Learning objectives for this lesson"
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 30
+      },
+      "uniqueItems": true,
+      "description": "Topics covered in this lesson"
+    },
+    "vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "definition"],
+        "properties": {
+          "term": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 200
+          },
+          "pronunciation": {
+            "type": "string",
+            "description": "Phonetic pronunciation guide"
+          },
+          "audioUrl": {
+            "type": "string",
+            "pattern": "^https?://.*",
+            "description": "URL to audio pronunciation"
+          }
+        }
+      },
+      "description": "Key vocabulary introduced in this lesson"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Prerequisites for this lesson"
+    },
+    "quizCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of quizzes in this lesson"
+    }
+  },
+  "additionalProperties": false
+}
