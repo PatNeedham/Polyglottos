@@ -39,8 +39,8 @@ export interface ImportError {
 export interface ConflictInfo {
   type: 'user' | 'progress' | 'settings';
   id: string;
-  existing: any;
-  incoming: any;
+  existing: UserData | ProgressData | SettingsData;
+  incoming: UserData | ProgressData | SettingsData;
   resolution?: 'keep_existing' | 'use_incoming' | 'merge';
 }
 

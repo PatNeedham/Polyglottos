@@ -1,6 +1,6 @@
 // Main import service for handling data imports and migrations
 
-import { StorageService } from '../storage/types';
+import { StorageService, UserData, ProgressData, SettingsData } from '../storage/types';
 import { ImportData, ImportResult, ImportOptions, ImportError, ConflictInfo, ImportProgress } from './types';
 import { DataValidator } from './validation';
 import { parseCSV } from './csv-parser';
@@ -124,7 +124,7 @@ export class ImportService {
     return result;
   }
 
-  private async importUsers(users: any[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
+  private async importUsers(users: UserData[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
     let imported = 0;
     let skipped = 0;
 
@@ -168,7 +168,7 @@ export class ImportService {
     return { imported, skipped };
   }
 
-  private async importProgress(progressList: any[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
+  private async importProgress(progressList: ProgressData[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
     let imported = 0;
     let skipped = 0;
 
@@ -219,7 +219,7 @@ export class ImportService {
     return { imported, skipped };
   }
 
-  private async importSettings(settingsList: any[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
+  private async importSettings(settingsList: SettingsData[], mergeStrategy: string, options: ImportOptions, result: ImportResult) {
     let imported = 0;
     let skipped = 0;
 

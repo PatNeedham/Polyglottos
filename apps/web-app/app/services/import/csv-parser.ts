@@ -117,14 +117,14 @@ export class CSVParser {
     return mapping;
   }
 
-  private parseRows(rows: string[][], headers: string[], mapping: CSVFieldMapping, dataType: string): any[] {
-    const result: any[] = [];
+  private parseRows(rows: string[][], headers: string[], mapping: CSVFieldMapping, dataType: string): (UserData | ProgressData | SettingsData)[] {
+    const result: (UserData | ProgressData | SettingsData)[] = [];
     
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
       if (row.length === 0 || row.every(field => !field)) continue; // Skip empty rows
       
-      const obj: any = {};
+      const obj: Record<string, unknown> = {};
       
       for (let j = 0; j < headers.length && j < row.length; j++) {
         const header = headers[j];
@@ -137,7 +137,7 @@ export class CSVParser {
       
       // Ensure required fields exist
       if (this.hasRequiredFields(obj, dataType)) {
-        result.push(obj);
+        result.push(obj as UserData | ProgressData | SettingsData);
       } else {
         this.addError(`Row ${i + 2}: Missing required fields for ${dataType}`);
       }
@@ -146,7 +146,7 @@ export class CSVParser {
     return result;
   }
 
-  private parseValue(value: string, fieldName: string): any {
+  private parseValue(value: string, fieldName: string): string | number | boolean | undefined {
     if (!value || value === '') return undefined;
     
     // Boolean fields
@@ -164,7 +164,7 @@ export class CSVParser {
     return value.trim();
   }
 
-  private hasRequiredFields(obj: any, dataType: string): boolean {
+  private hasRequiredFields(obj: Record<string, unknown>, dataType: string): boolean {
     switch (dataType) {
       case 'users':
         return !!(obj.id && obj.username && obj.email);

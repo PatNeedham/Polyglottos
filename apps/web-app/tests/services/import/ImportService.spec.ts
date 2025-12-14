@@ -1,70 +1,70 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ImportService } from '../../../app/services/import/ImportService';
-import { StorageService } from '../../../app/services/storage/types';
-import { ImportData } from '../../../app/services/import/types';
+import { StorageService, UserData, ProgressData, SettingsData, SessionData } from '../../../app/services/storage/types';
+import { ImportData, ImportProgress } from '../../../app/services/import/types';
 
 // Mock StorageService
 class MockStorageService implements StorageService {
-  private users = new Map();
-  private progress = new Map();
-  private settings = new Map();
-  private session = {};
+  private users = new Map<string, UserData>();
+  private progress = new Map<string, ProgressData>();
+  private settings = new Map<string, SettingsData>();
+  private session: SessionData = {};
 
-  async getUserData(userId: string) {
+  async getUserData(userId: string): Promise<UserData | null> {
     return this.users.get(userId) || null;
   }
 
-  async setUserData(userData: any) {
+  async setUserData(userData: UserData): Promise<void> {
     this.users.set(userData.id, userData);
   }
 
-  async deleteUserData(userId: string) {
+  async deleteUserData(userId: string): Promise<void> {
     this.users.delete(userId);
   }
 
-  async getProgressData(userId: string) {
+  async getProgressData(userId: string): Promise<ProgressData | null> {
     return this.progress.get(userId) || null;
   }
 
-  async setProgressData(progressData: any) {
+  async setProgressData(progressData: ProgressData): Promise<void> {
     this.progress.set(progressData.userId, progressData);
   }
 
-  async updateProgress(userId: string, updates: any) {
-    const existing = this.progress.get(userId) || {};
+  async updateProgress(userId: string, updates: Partial<ProgressData>): Promise<void> {
+    const existing = this.progress.get(userId) || {} as ProgressData;
     this.progress.set(userId, { ...existing, ...updates });
   }
 
-  async getSettings(userId: string) {
+  async getSettings(userId: string): Promise<SettingsData | null> {
     return this.settings.get(userId) || null;
   }
 
-  async setSettings(settings: any) {
+  async setSettings(settings: SettingsData): Promise<void> {
     this.settings.set(settings.userId, settings);
   }
 
-  async updateSettings(userId: string, updates: any) {
-    const existing = this.settings.get(userId) || {};
+  async updateSettings(userId: string, updates: Partial<SettingsData>): Promise<void> {
+    const existing = this.settings.get(userId) || {} as SettingsData;
     this.settings.set(userId, { ...existing, ...updates });
   }
 
-  async getSession() {
+  async getSession(): Promise<SessionData> {
     return this.session;
   }
 
-  async setSession(sessionData: any) {
+  async setSession(sessionData: SessionData): Promise<void> {
     this.session = sessionData;
   }
 
-  async clearSession() {
+  async clearSession(): Promise<void> {
     this.session = {};
   }
 
-  async isAvailable() {
+  async isAvailable(): Promise<boolean> {
     return true;
   }
 
-  async clear() {
+  async clear(): Promise<void> {
     this.users.clear();
     this.progress.clear();
     this.settings.clear();
@@ -261,7 +261,7 @@ user-1,testuser`;
 
   describe('progress reporting', () => {
     it('should report progress during import', async () => {
-      const progressUpdates: any[] = [];
+      const progressUpdates: ImportProgress[] = [];
       
       const data: ImportData = {
         users: [
@@ -301,11 +301,14 @@ user-1,testuser`;
 
   describe('error handling', () => {
     it('should collect and report errors for failed imports', async () => {
-      const mockStorage = {
-        ...storage,
-        setUserData: vi.fn().mockRejectedValue(new Error('Storage error'))
-      } as any;
+      // Create a properly typed error mock that extends MockStorageService
+      class ErrorMockStorageService extends MockStorageService {
+        async setUserData() {
+          throw new Error('Storage error');
+        }
+      }
 
+      const mockStorage = new ErrorMockStorageService();
       const errorImportService = new ImportService(mockStorage);
 
       const data: ImportData = {
