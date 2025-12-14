@@ -187,12 +187,12 @@ export class ImportService {
             skipped++;
             continue;
           } else if (resolution === 'merge') {
-            // Merge progress data by summing values
+            // Merge progress data by summing values (with validation)
             const merged = {
               ...existing,
-              questionsAnswered: existing.questionsAnswered + progress.questionsAnswered,
-              correctAnswers: existing.correctAnswers + progress.correctAnswers,
-              quizzesTaken: existing.quizzesTaken + progress.quizzesTaken,
+              questionsAnswered: (existing.questionsAnswered || 0) + (progress.questionsAnswered || 0),
+              correctAnswers: (existing.correctAnswers || 0) + (progress.correctAnswers || 0),
+              quizzesTaken: (existing.quizzesTaken || 0) + (progress.quizzesTaken || 0),
               lastUpdated: new Date().toISOString()
             };
             await this.storage.setProgressData(merged);

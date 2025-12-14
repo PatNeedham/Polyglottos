@@ -295,7 +295,7 @@ export default function MigrationWizard() {
       <h1>Storage Migration Wizard</h1>
       
       <div className="wizard-progress">
-        <div className={`step ${step === 'intro' ? 'active' : step === 'intro' ? 'complete' : ''}`}>
+        <div className={`step ${step === 'intro' ? 'active' : ''}`}>
           1. Introduction
         </div>
         <div className={`step ${step === 'configure' ? 'active' : ['confirm', 'migrating', 'complete'].includes(step) ? 'complete' : ''}`}>

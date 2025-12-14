@@ -35,12 +35,12 @@ export default function ImportData() {
           mergeStrategy,
           onProgress: (prog) => setProgress(prog),
           onConflict: async (conflict) => {
-            return await new Promise((resolve) => {
-              setCurrentConflict(conflict);
-              setConflicts(prev => [...prev, conflict]);
-              // Default resolution for now
-              resolve(mergeStrategy);
-            });
+            // Track conflicts for reporting
+            setCurrentConflict(conflict);
+            setConflicts(prev => [...prev, conflict]);
+            // Use the selected merge strategy for resolution
+            // Interactive conflict resolution can be added as a future enhancement
+            return mergeStrategy;
           }
         });
       } else {
@@ -48,11 +48,11 @@ export default function ImportData() {
           mergeStrategy,
           onProgress: (prog) => setProgress(prog),
           onConflict: async (conflict) => {
-            return await new Promise((resolve) => {
-              setCurrentConflict(conflict);
-              setConflicts(prev => [...prev, conflict]);
-              resolve(mergeStrategy);
-            });
+            // Track conflicts for reporting
+            setCurrentConflict(conflict);
+            setConflicts(prev => [...prev, conflict]);
+            // Use the selected merge strategy for resolution
+            return mergeStrategy;
           }
         });
       }

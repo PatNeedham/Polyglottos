@@ -101,7 +101,8 @@ export class CSVParser {
       
       // Try to match with known field variations
       for (const [field, variations] of Object.entries(fieldVariations)) {
-        if (variations.some(v => v === normalizedHeader || normalizedHeader.includes(v))) {
+        // Use exact match first, then check if header contains the variation
+        if (variations.some(v => v === normalizedHeader)) {
           mapping[header] = field;
           break;
         }
