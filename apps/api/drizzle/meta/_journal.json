@@ -8,6 +8,13 @@
       "when": 1739759049365,
       "tag": "0000_flashy_harpoon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1765682096499,
+      "tag": "0001_sleepy_lethal_legion",
+      "breakpoints": true
     }
   ]
 }

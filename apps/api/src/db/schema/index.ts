@@ -12,3 +12,5 @@ export * from './goals';
 export * from './notifications';
 export * from './progress';
 export * from './questions';
+export * from './userRoleVerifications';
+export * from './userRoleRequests';

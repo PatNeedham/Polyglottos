@@ -1,6 +1,11 @@
 import { StorageConfig } from './storage/types';
 
 /**
+ * API configuration
+ */
+export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8787';
+
+/**
  * Storage configuration for the application
  */
 export const storageConfig: StorageConfig = {
