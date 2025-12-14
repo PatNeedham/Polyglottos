@@ -31,8 +31,10 @@ class MockStorageService implements StorageService {
   }
 
   async updateProgress(userId: string, updates: Partial<ProgressData>): Promise<void> {
-    const existing = this.progress.get(userId) || {} as ProgressData;
-    this.progress.set(userId, { ...existing, ...updates });
+    const existing = this.progress.get(userId);
+    if (existing) {
+      this.progress.set(userId, { ...existing, ...updates });
+    }
   }
 
   async getSettings(userId: string): Promise<SettingsData | null> {
@@ -44,8 +46,10 @@ class MockStorageService implements StorageService {
   }
 
   async updateSettings(userId: string, updates: Partial<SettingsData>): Promise<void> {
-    const existing = this.settings.get(userId) || {} as SettingsData;
-    this.settings.set(userId, { ...existing, ...updates });
+    const existing = this.settings.get(userId);
+    if (existing) {
+      this.settings.set(userId, { ...existing, ...updates });
+    }
   }
 
   async getSession(): Promise<SessionData> {

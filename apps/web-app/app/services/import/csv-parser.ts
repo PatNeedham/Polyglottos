@@ -135,9 +135,9 @@ export class CSVParser {
         obj[fieldName] = this.parseValue(value, fieldName);
       }
       
-      // Ensure required fields exist
+      // Ensure required fields exist (hasRequiredFields is a type guard)
       if (this.hasRequiredFields(obj, dataType)) {
-        result.push(obj as UserData | ProgressData | SettingsData);
+        result.push(obj);
       } else {
         this.addError(`Row ${i + 2}: Missing required fields for ${dataType}`);
       }
@@ -164,7 +164,7 @@ export class CSVParser {
     return value.trim();
   }
 
-  private hasRequiredFields(obj: Record<string, unknown>, dataType: string): boolean {
+  private hasRequiredFields(obj: Record<string, unknown>, dataType: string): obj is UserData | ProgressData | SettingsData {
     switch (dataType) {
       case 'users':
         return !!(obj.id && obj.username && obj.email);
