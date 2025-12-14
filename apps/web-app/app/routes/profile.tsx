@@ -5,6 +5,7 @@ import RoleBadge from '~/components/RoleBadge';
 import RoleUpgradeRequest from '~/components/RoleUpgradeRequest';
 import RoleRequestsList from '~/components/RoleRequestsList';
 import { UserRole, ROLES, UserPermissions } from '~/types/roles';
+import { API_BASE_URL } from '~/services/config';
 
 export default function Profile() {
   const [user, setUser] = useState<any>({ 
@@ -29,13 +30,13 @@ export default function Profile() {
       const userId = user.id;
       
       // Fetch user role and permissions from API
-      const roleResponse = await fetch(`http://localhost:8787/roles/user/${userId}`);
+      const roleResponse = await fetch(`${API_BASE_URL}/roles/user/${userId}`);
       if (roleResponse.ok) {
         const roleData = await roleResponse.json();
         setUser((prev: any) => ({ ...prev, role: roleData.role }));
       }
       
-      const permissionsResponse = await fetch(`http://localhost:8787/roles/permissions/${userId}`);
+      const permissionsResponse = await fetch(`${API_BASE_URL}/roles/permissions/${userId}`);
       if (permissionsResponse.ok) {
         const permData = await permissionsResponse.json();
         setPermissions(permData);

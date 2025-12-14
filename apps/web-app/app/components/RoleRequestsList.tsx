@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RoleRequest, getRoleDisplayName } from '../types/roles';
+import { API_BASE_URL } from '../services/config';
 
 interface RoleRequestsListProps {
   userId: string | number;
@@ -20,7 +21,7 @@ export default function RoleRequestsList({ userId, refreshTrigger }: RoleRequest
     setError(null);
     
     try {
-      const response = await fetch(`http://localhost:8787/roles/requests/user/${userId}`);
+      const response = await fetch(`${API_BASE_URL}/roles/requests/user/${userId}`);
       
       if (response.ok) {
         const data = await response.json();

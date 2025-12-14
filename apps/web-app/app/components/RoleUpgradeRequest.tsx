@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ROLES, UserRole, getRoleDisplayName, getRoleDescription } from '../types/roles';
+import { API_BASE_URL } from '../services/config';
 
 interface RoleUpgradeRequestProps {
   userId: string | number;
@@ -34,7 +35,7 @@ export default function RoleUpgradeRequest({
     setMessage(null);
     
     try {
-      const response = await fetch('http://localhost:8787/roles/request', {
+      const response = await fetch(`${API_BASE_URL}/roles/request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
