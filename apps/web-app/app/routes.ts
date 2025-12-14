@@ -9,4 +9,6 @@ export default [
   route('resend-verification', 'routes/resend-verification.tsx'),
   route('profile', 'routes/profile.tsx'),
   route('settings', 'routes/settings.tsx'),
+  route('import', 'routes/import.tsx'),
+  route('migrate', 'routes/migrate.tsx'),
 ];
