@@ -13,6 +13,7 @@ export const users = sqliteTable(
     username: text('username').notNull(),
     email: text('email').unique().notNull(),
     passwordHash: text('password_hash').notNull(),
+    role: text('role').notNull().default('learner'),
     createdAt: text('created_at').default('CURRENT_TIMESTAMP'),
   },
   (t) => [

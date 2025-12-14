@@ -4,6 +4,7 @@ import { DrizzleD1Database } from 'drizzle-orm/d1';
 import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
 import forumCommentRoutes from './routes/forumComment';
+import roleRoutes from './routes/role';
 import { D1Database } from '@cloudflare/workers-types';
 
 export type Bindings = {
@@ -25,6 +26,7 @@ app.use('*', async (c, next) => {
 app.route('/users', userRoutes);
 app.route('/lessons', lessonRoutes);
 app.route('/forum-comments', forumCommentRoutes);
+app.route('/roles', roleRoutes);
 
 app.get('/', (c) => c.text('This is the Polyglottos API!'));
 
