@@ -161,8 +161,36 @@ export default function Settings() {
       </div>
       
       <div className="settings-section">
-        <h2>Other Settings</h2>
-        <p>Additional account settings will be available here.</p>
+        <h2>Data Import</h2>
+        <p>Import previously exported data to restore or merge with your current progress.</p>
+        <div className="import-actions">
+          <Link to="/import" className="button primary">Import Data</Link>
+        </div>
+        
+        <h3>Features:</h3>
+        <ul>
+          <li>Import from JSON or CSV formats</li>
+          <li>Intelligent field mapping for CSV files</li>
+          <li>Merge with existing data or overwrite</li>
+          <li>Validation and error reporting</li>
+          <li>Progress tracking for large datasets</li>
+        </ul>
+      </div>
+
+      <div className="settings-section">
+        <h2>Storage Migration</h2>
+        <p>Migrate your data between local and cloud storage.</p>
+        <div className="migration-actions">
+          <Link to="/migrate" className="button primary">Migration Wizard</Link>
+        </div>
+        
+        <h3>Migration Options:</h3>
+        <ul>
+          <li>Local to Cloud: Access data from any device</li>
+          <li>Cloud to Local: Faster offline access</li>
+          <li>Automatic conflict resolution</li>
+          <li>Safe migration with data preservation</li>
+        </ul>
       </div>
 
       <div className="settings-actions">
