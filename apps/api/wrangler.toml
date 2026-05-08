@@ -1,0 +1,29 @@
+# Cloudflare Workers configuration for the Polyglottos API.
+#
+# EKODB_API_KEY is a SECRET — never put it in this file. Set it once per
+# environment with:
+#     wrangler secret put EKODB_API_KEY                   # default env
+#     wrangler secret put EKODB_API_KEY --env production  # production env
+#
+# For local development, put EKODB_API_KEY in apps/api/.dev.vars
+# (gitignored). See apps/api/.dev.vars.example for the template.
+
+name = "polyglottos-api"
+main = "./src/index.ts"
+workers_dev = true
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+EKODB_BASE_URL = "https://polyglottos-dev.development.google.ekodb.net"
+
+[env.production]
+name = "api-production"
+[env.production.vars]
+EKODB_BASE_URL = "https://polyglottos-dev.development.google.ekodb.net"
+
+[env.local]
+name = "api-local"
+
+[observability]
+enabled = true

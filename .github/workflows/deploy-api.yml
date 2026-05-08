@@ -23,10 +23,6 @@ jobs:
         run: npm install --legacy-peer-deps
         working-directory: ./apps/api
 
-      - name: Install crypto-browserify
-        run: npm install crypto-browserify
-        working-directory: ./apps/api
-
       - name: Install latest wrangler CLI
         run: npm uninstall -g @cloudflare/wrangler && npm install -g wrangler
 
@@ -36,4 +32,3 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
