@@ -1,0 +1,18 @@
+[
+  {
+    "lessonName": "Spanish Basics: Greetings",
+    "languageId": "language-spanish"
+  },
+  {
+    "lessonName": "Spanish Basics: Numbers",
+    "languageId": "language-spanish"
+  },
+  {
+    "lessonName": "French Basics: Greetings",
+    "languageId": "language-french"
+  },
+  {
+    "lessonName": "Japanese Hiragana: Vowels",
+    "languageId": "language-japanese"
+  }
+]

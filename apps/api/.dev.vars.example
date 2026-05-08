@@ -1,0 +1,7 @@
+# Local secrets for `wrangler dev`. Copy to `.dev.vars` and fill in real values.
+# .dev.vars is git-ignored. Do NOT commit a real key.
+#
+# EKODB_BASE_URL is also set in wrangler.toml [vars]. Defining it here overrides
+# it locally if you want to point at a different deployment for development.
+
+EKODB_API_KEY="paste-your-admin-key-from-the-ekodb-dashboard-here"

@@ -1,57 +1,55 @@
 import { Hono } from 'hono';
-import { forumComments } from '../db/schema';
-import { DrizzleD1Database } from 'drizzle-orm/d1';
-import { Bindings } from '../index';
-import { eq } from 'drizzle-orm';
+import { Repositories } from '../repositories/types';
 
-const forumCommentRoutes = new Hono<{
-  Bindings: Bindings;
-  Variables: { db: DrizzleD1Database };
-}>();
+export function createForumCommentRoutes(repos: Repositories) {
+  const forumCommentRoutes = new Hono();
 
-forumCommentRoutes.get('/', async (c) => {
-  try {
-    const db: DrizzleD1Database = c.get('db');
-    const comments = await db.select().from(forumComments).all();
-    return c.json(comments);
-  } catch (error) {
-    console.error('Error fetching forum comments:', error);
-    return c.text('Internal Server Error', 500);
-  }
-});
+  forumCommentRoutes.get('/', async (c) => {
+    try {
+      const comments = await repos.forumComments.list();
+      return c.json(comments);
+    } catch (error) {
+      console.error('Error fetching forum comments:', error);
+      return c.text('Internal Server Error', 500);
+    }
+  });
 
-forumCommentRoutes.get('/:id', async (c) => {
-  try {
-    const id = parseInt(c.req.param('id'));
-    const db: DrizzleD1Database = c.get('db');
-    const comment = await db
-      .select()
-      .from(forumComments)
-      .where(eq(forumComments.id, id))
-      .get();
+  forumCommentRoutes.get('/:id', async (c) => {
+    try {
+      const id = c.req.param('id');
+      const comment = await repos.forumComments.getById(id);
+      return comment
+        ? c.json(comment)
+        : c.text('Forum comment not found', 404);
+    } catch (error) {
+      console.error('Error fetching forum comment:', error);
+      return c.text('Internal Server Error', 500);
+    }
+  });
 
-    return comment ? c.json(comment) : c.text('Forum comment not found', 404);
-  } catch (error) {
-    console.error('Error fetching forum comment:', error);
-    return c.text('Internal Server Error', 500);
-  }
-});
+  forumCommentRoutes.post('/', async (c) => {
+    try {
+      const body = await c.req.json();
+      const { userId, content, quizId, parentId } = body ?? {};
+      if (!userId || !content || !quizId) {
+        return c.text(
+          'Missing required fields: userId, content, quizId',
+          400
+        );
+      }
+      const comment = await repos.forumComments.create({
+        userId,
+        content,
+        quizId,
+        parentId,
+      });
+      return c.json(comment, 201);
+    } catch (error) {
+      console.error('Error creating forum comment:', error);
+      const message = error instanceof Error ? error.message : String(error);
+      return c.text(`Internal Server Error: ${message}`, 500);
+    }
+  });
 
-forumCommentRoutes.post('/', async (c) => {
-  try {
-    const db: DrizzleD1Database = c.get('db');
-    const { userId, content, quizId } = await c.req.json();
-
-    const newComment = await db
-      .insert(forumComments)
-      .values({ userId, content, quizId })
-      .execute();
-
-    return c.json(newComment);
-  } catch (error) {
-    console.error('Error creating forum comment:', error);
-    return c.text('Internal Server Error', 500);
-  }
-});
-
-export default forumCommentRoutes;
+  return forumCommentRoutes;
+}
