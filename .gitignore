@@ -11,6 +11,12 @@ node_modules
 # Ignore Wrangler directory
 .wrangler/
 
+# Local Wrangler secrets (per-worker, never commit)
+**/.dev.vars
+**/.dev.vars.*
+# But the documented template IS committed
+!**/.dev.vars.example
+
 # Ignore generated Wrangler config files for API
 /apps/api/wrangler.toml
 

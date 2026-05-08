@@ -1,0 +1,22 @@
+[
+  {
+    "authorIndex": 0,
+    "quizId": "quiz-spanish-greetings-01",
+    "content": "I found this question very easy!"
+  },
+  {
+    "authorIndex": 1,
+    "quizId": "quiz-spanish-greetings-01",
+    "content": "I struggled with this one — anyone have tips?"
+  },
+  {
+    "authorIndex": 2,
+    "quizId": "quiz-spanish-numbers-01",
+    "content": "Great question, made me think!"
+  },
+  {
+    "authorIndex": 3,
+    "quizId": "quiz-french-greetings-01",
+    "content": "I love learning French!"
+  }
+]
