@@ -1,3 +1,110 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header height, so anchor jumps don't land under the nav. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-50 font-body text-ink-700 antialiased dark:bg-ink-950 dark:text-ink-300;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-sans text-ink-900 dark:text-ink-50;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One consistent focus treatment everywhere, visible on both themes. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-jade-500 ring-offset-2 ring-offset-ink-50 dark:ring-jade-400 dark:ring-offset-ink-950;
+    border-radius: 0.35rem;
+  }
+
+  ::selection {
+    @apply bg-jade-200 text-jade-950;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-jade-700 dark:text-jade-300;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-ink-200/80 bg-white shadow-[0_1px_2px_rgba(10,17,25,0.04),0_12px_32px_-18px_rgba(10,17,25,0.28)] dark:border-ink-800 dark:bg-ink-900/70 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),0_18px_44px_-24px_rgba(0,0,0,0.9)];
+  }
+
+  /* Cards that lift on hover but stay put for reduced-motion users. */
+  .lift {
+    @apply transition duration-300 ease-smooth motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_1px_2px_rgba(10,17,25,0.05),0_24px_48px_-24px_rgba(10,17,25,0.34)];
+  }
+}
+
+@layer utilities {
+  .text-gradient-jade {
+    @apply bg-gradient-to-br from-jade-600 via-jade-500 to-signal-500 bg-clip-text text-transparent dark:from-jade-300 dark:via-jade-400 dark:to-signal-300;
+  }
+
+  /* Fades the marquee edges into the page background on both themes. */
+  .mask-edges {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .grid-backdrop {
+    background-image: linear-gradient(
+        to right,
+        rgb(var(--grid-rgb, 148 163 178) / 0.16) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(var(--grid-rgb, 148 163 178) / 0.16) 1px,
+        transparent 1px
+      );
+    background-size: 56px 56px;
+  }
+}
+
+/*
+ * Global reduced-motion escape hatch. Tailwind's motion-safe: variant covers
+ * the classes we author, but this also neutralises keyframes applied by
+ * inline styles and third-party markup.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
